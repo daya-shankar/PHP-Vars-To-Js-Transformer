@@ -14,12 +14,12 @@ Begin by installing this package through Composer.
 ```js
 {
     "require": {
-		"laracasts/utilities": "~2.0"
+		"laracasts/utilities": "1.0.1"
 	}
 }
 ```
 
-> If you use Laravel 4: instead install `~1.0` of this package (and use the documentation for that release). For Laravel 5 (or non-Laravel), `~2.0` will do the trick!
+> If you use Laravel 4: instead `~1.0.1`
 
 ### Laravel Users
 
@@ -29,9 +29,19 @@ If you are a Laravel user, there is a service provider you can make use of to au
 
 // app/config/app.php
 
+'aliases' => [
+    '...',
+    'JavaScript'        =>  'Laracasts\Utilities\JavaScript\Facades\JavaScript'
+];
+```
+
+```php
+
+// app/config/local/app.php
+
 'providers' => [
     '...',
-    'Laracasts\Utilities\JavaScript\JavascriptServiceProvider'
+    ''Laracasts\Utilities\UtilitiesServiceProvider''
 ];
 ```
 
@@ -63,7 +73,7 @@ console.log(age); // 29
 If using Laravel, there are only two configuration options that you'll need to worry about. First, publish the default configuration.
 
 ```bash
-php artisan vendor:publish
+php artisan config:publish laracasts/utilities
 ```
 
 This will add a new configuration file to: `config/javascript.php`.
@@ -114,41 +124,6 @@ then you'll access all JavaScript variables, like so:
 ```js
 MyNewNamespace.varName
 ```
-
-### Symfony2
-To use this component in Symfony2 applications you can try [this bundle](https://github.com/holyspecter/HospectPhpVarsToJsBundle), built on top of PHP-Vars-To-Js-Transformer.
-
-### Without Laravel
-
-If you're not using Laravel, then you'll need to hard-wire things yourself. (Or, feel free to submit a pull request with an implementation for your desired framework.)
-
-First, create an implementation of the `Laracasts\Utilities\JavaScript\ViewBinder` interface. This class is in charge of inserting the given JavaScript into your view/page.
-
-```php
-<?php
-
-class MyAppViewBinder implements Laracasts\Utilities\JavaScript\ViewBinder {
-
-    // $js will contain your JS-formatted variable initializations
-    public function bind($js)
-    {
-        // Do what you need to do to add this JavaScript to
-        // the appropriate place in your app.
-    }
-}
-```
-
-Next, put it all together:
-
-```php
-$binder = new MyAppViewBinder;
-$javascript = new PHPToJavaScriptTransformer($binder, 'window'); // change window to your desired namespace
-$javascript->put(['foo' => 'bar']);
-```
-
-Now, you can access `window.foo` from your JavaScript.
-
-Remember, though, this is only necessary if you aren't using Laravel. If you are, then just reference the service provider, as demonstrated above.
 
 ## License
 
