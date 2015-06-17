@@ -10,5 +10,5 @@ class JavaScriptException extends \Exception {
      * @var string
      */
     protected $message =
-        'JavaScript configuration must be published. Use: "php artisan vendor:publish".';
+        'JavaScript configuration must be published. Use: "php artisan config:publish laracasts/utilities".';
 }
